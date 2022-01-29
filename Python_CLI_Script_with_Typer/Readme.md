@@ -110,7 +110,7 @@ Install the typer-cli usinf pip3
 
 Now try to run the app in the terminal using
 > typer .\main.py run hello Jahid 500   # typer cli has an additional parameter (run)
-> typer .\main.py run h                 # press tab, this will autocomplete to `hello`
+> typer .\main.py run h                 # press `tab`, this will autocomplete to `hello`
 
 """
 ```
