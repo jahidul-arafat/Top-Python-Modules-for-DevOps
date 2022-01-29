@@ -11,7 +11,7 @@
 - [x] Create a simple typer application which will let you create a python cli app
 
 #### Part -01: Install the typer module 
-```buildoutcfg
+```bash
 pip3 intall typer
 pip3 install typer-cli
 ```
@@ -41,7 +41,7 @@ Note: Hence it only has one function, so by default hello() would be called with
 
 ```
 **2.5 What if we have multiple functions in the app().**
-```buildoutcfg
+```python
 # Add another function named goodbye() with @app.command() as decorator
 @app.command()
 def goodbye():
@@ -56,7 +56,7 @@ python3 .\main.py goodbye
 ```
 
 **2.6: Add two parameters: {name->string, id->integer} into the hello function**
-```buildoutcfg
+```python
 # Comment the section 2.4
 # When moves to section 2.7, comment the below code
 # @app.command()
@@ -74,7 +74,7 @@ python3 .\main.py hello Jahid 500   # Will execute correctly
 
 **2.7: Lets try a twist with hello() function**
 
-```buildoutcfg
+```python
 # Enable the user with optional disaply_iq agrument with default value: bool-> True
 # If set, then the IQ value will be display
 # if the user passed --no-display-iq from terminal, the IQ will be hidden
@@ -95,14 +95,14 @@ python3 .\main.py hello Jahid 500 --display-iq          # default is 'python3 .\
 ```
 
 **2.3 Create a python application that will call the typer object named app()**
-```buildoutcfg
+```python
 if __name__ == "__main__":
     app()  # Creating a python application to call that typer object
 ```
 
 
 ### Part-03: Enable autocompletion in your typer module
-```buildoutcfg
+```python
 """
 Install the typer-cli usinf pip3
 > pip3 install typer-cli
