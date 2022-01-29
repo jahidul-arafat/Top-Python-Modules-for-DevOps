@@ -26,7 +26,7 @@ pip3 install typer-cli
 `app = typer.Typer()  # Creating an typer object`
 
 **2.4 Create a simple function named hello() without any parameters**
-```buildoutcfg
+```python
 # and add a decorator so that it can be get working with the app()
 # uncomment this section
 # @app.command()
