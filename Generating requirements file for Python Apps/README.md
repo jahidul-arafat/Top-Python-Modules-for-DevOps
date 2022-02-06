@@ -1,4 +1,5 @@
 ### Setting up Python Virtual Environment and Auto generating requirements.txt file with all the required modules
+[![Top Python Modules for DevOps](https://res.cloudinary.com/marcomontalbano/image/upload/v1643444980/video_to_markdown/images/youtube--5VWmeF6cRwI-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/en_6f1ENBA0 "Top Python Modules for DevOps")
 
 #### Step-1: Install Python3-evv
 ```bash
