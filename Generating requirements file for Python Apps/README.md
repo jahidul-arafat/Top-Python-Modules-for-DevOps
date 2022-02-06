@@ -28,15 +28,14 @@ vim test_python_project/sample_file.py                       # create a sample p
 #@at virtual environment
 pip3 install pipreqs
 pipreqs test_python_project/                          # This will generate the requirements.txt for your current project
+pipreqs --print test_python_project/                  # Print the modules listed in the requirements.txt file
+pipreqs --print --no-pin test_python_project/         # Print the modules without the versions
 pip3 install -r test_python_project/requirements.txt  # this will install all the modules requires to make your project executable
-python3 test_python_project/sample_file.py                   # Now execute the python project and it will be working fine
+
+python3 test_python_project/sample_file.py            # Now execute the python project and it will be working fine
 ```
 
-
-
-
-
-Ref:
+#### References:
 1. https://www.liquidweb.com/kb/how-to-setup-a-python-virtual-environment-on-ubuntu-18-04/
 
 
