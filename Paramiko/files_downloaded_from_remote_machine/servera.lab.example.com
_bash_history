@@ -1,0 +1,12 @@
+ansible --version
+sudo systemctl status httpd
+curl localhost
+exit
+clear
+exit
+ll
+pwd
+exit
+ls
+cat test 
+exit

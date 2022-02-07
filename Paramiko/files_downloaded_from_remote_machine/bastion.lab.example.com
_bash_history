@@ -1,0 +1,5 @@
+ansible --verison
+ansible --version
+exit
+timedatectl 
+exit

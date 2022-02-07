@@ -1,0 +1,14 @@
+ip a s
+exit
+ansible --version
+python --version
+sudo apt install python3
+sudo yum install python
+sudo yum install python36
+python --version
+python3 --version
+python3.6 --version
+clear
+exit
+ansible --version
+exit
