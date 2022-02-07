@@ -54,7 +54,10 @@ vagrant destroy
 Get the [Lab-01 Source Code](lab-1.py)
 
 #### Lab-02: Get the hostname, uname of all the servers at your organization or you can execute any other commands in those servers as you wish
+Get the [Lab-02 Source Code](lab-2.py)
+
 #### Lab-03: A Details one
+Get the [Lab-03 Source Code](lab-3.py)
 - [x] A. Get the hostname of the server 
 - [x] B. list all files using SFTPClient of paramiko and identify file/folders separately 
 - [x] C. Put a file from local machine to remote server using SFTP Client. Here in this case we will put a simple test.txt file to all the servers
