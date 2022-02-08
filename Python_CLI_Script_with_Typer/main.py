@@ -72,7 +72,7 @@ if __name__ == "__main__":
 
 # PART-3: Enable autocompletion in your typer module
 """
-Install the typer-cli usinf pip3
+Install the typer-cli using pip3
 > pip3 install typer-cli
 > typer --install-completion    # this will prompt to restart the terminal. So, Restart the terminal
 
