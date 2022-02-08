@@ -181,3 +181,23 @@ def say(config,string,repeat,out):
     for x in range(repeat):
         click.echo(f"Attempt: {x+1} Hello {string}",file=out)   # this file is LAZY by default.
 ```
+
+```bash
+# Use Cases
+> hello
+> hello --help
+> hello say --help
+> hello say --string "Jahidul Arafat"
+> hello say --string "Jahidul Arafat" --repeat 10
+> hello say --repeat 10
+> hello say --repeat 10 output.txt
+> hello say output.txt
+> rm output.txt
+
+> hello --verbose
+> hello --verbose say
+
+> hello say
+> hello --home-directory=/tmp say 
+
+```
