@@ -2,27 +2,49 @@
 
 #### 1. Create the setup.py for installation
 ```python
-import click
-@click.command()
-@click.option('--string', default="World",
-              help="This is the named that is greeted")
-@click.option('--repeat', default=1,
-              help="How many times to greet")
-@click.argument('out', type=click.File('w'),
-                default='-', required=False)                    # mendatory argument, comes after all the options
-                                                                # type=int/str or click type. click type is more powerful
-                                                                # Convert this mendatory argument optional using defualt and required parameter
-def cli(string,repeat,out):
-    # Add a doc string
-    """This script greets you"""
-    #click.echo(out)
-    for x in range(repeat):
-        click.echo(f"Attempt: {x+1} Hello {string}",file=out)   # this file is LAZY by default.
-                                                                # Means, unless you write something in this file, it doesn't open
+from setuptools import setup
+
+setup(
+    name="HelloWorld",      # Name of the python package
+    version="1.0",          # Version of the 'HelloWorld' python package
+    py_modules=['hello'],   # Module Name: hello, have to be created
+    install_requires=[
+        'Click',            # Setting up this python module requires a Package named 'Click'
+    ],
+
+    entry_points='''
+        [console_scripts]
+        hello=hello:cli
+    ''',
+)
 ```
+
+Let's explain the **entry_points**:
+- [x] **[console_script]**; means this app is designed to be run in terminal or console
+- [x] **hello=hello:cli** ; CommandLineTool_name=PythonModuleName:Cli_function which will be executed upon call
+
+#### What's Next ?
+- [x] Create a Python Module Named 'hello': hello.py
+- [x] Create a function named 'cli' in the hello.py
+- [x] Go to Scenario-00
 
 
 ## 2. My Simulations 
+#### Scenario-00: Lets install the package named HelloWorld:v1.0. Before that create the required python module named hello.py and in it create a simpel function named cli()
+```python
+# > vim hello.py
+def cli():
+    pass
+```
+
+**Phase-2:** Install the Python package "**HelloWorld**" using the following command
+```bash
+> cd helloclick
+> pip3 install --editable .     # --editable, -e 
+                                # Install a project in editable mode (i.e. setuptools “develop mode”) from a local project path or a VCS url.
+                                # . --> will look for the the setup.py file for installation in the current directory
+```
+
 #### Scenario-01: Using Cli function and No Click.group() to create a cmd line application
 ```python
 import click
