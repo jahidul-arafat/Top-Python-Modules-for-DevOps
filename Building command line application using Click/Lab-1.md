@@ -65,6 +65,7 @@ def cli(string,repeat,out):
         click.echo(f"Attempt: {x+1} Hello {string}",file=out)   # this file is LAZY by default.
                     
 ```
+
 ```bash
 # Valid Use Cases
 > hello
@@ -80,6 +81,7 @@ def cli(string,repeat,out):
 > hello --repeat awsdf output.txt 
 > rm output.txt     # this file does not exist. Note. Lazy File Operation
 ```
+
 #### Scenario-02: Using click.group() to modify the above command line application
 - [x] Any **click.group** can have subcommands 
 - [x] Following changes we would made
@@ -136,8 +138,7 @@ def say(config,string,repeat,out):
         click.echo("We are in Verbose Mode!!!")
     for x in range(repeat):
         click.echo(f"Attempt: {x+1} Hello {string}",file=out)   # this file is LAZY by default.
-```python
-
+```
 
 ```bash
 # Use Cases
