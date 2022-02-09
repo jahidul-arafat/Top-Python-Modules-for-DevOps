@@ -221,6 +221,6 @@ def say(config,string,repeat,out):
 > hello --verbose say
 
 > hello say
-> hello --home-directory=/tmp say 
+> hello --home-directory /tmp say 
 
 ```
