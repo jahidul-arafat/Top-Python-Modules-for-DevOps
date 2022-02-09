@@ -1,0 +1,8 @@
+dircleaner.py
+setup.py
+DirectoryCleaner.egg-info/PKG-INFO
+DirectoryCleaner.egg-info/SOURCES.txt
+DirectoryCleaner.egg-info/dependency_links.txt
+DirectoryCleaner.egg-info/entry_points.txt
+DirectoryCleaner.egg-info/requires.txt
+DirectoryCleaner.egg-info/top_level.txt
