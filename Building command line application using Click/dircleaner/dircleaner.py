@@ -98,8 +98,10 @@ def clean(config,path):
 Use Cases:
 ---------
 > dirclearner
+> dirclearner --verbose
 > dirclearner --help
 > dirclearner clean --help
+> dircleaner --verbose clean 
 > dirclearner clean
 > dirclearner clean --path ./test_directory
 > dirclearner clean --path ~/Downloads

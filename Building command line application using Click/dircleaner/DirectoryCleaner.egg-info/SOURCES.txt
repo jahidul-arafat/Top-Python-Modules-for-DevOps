@@ -1,3 +1,4 @@
+README.md
 dircleaner.py
 setup.py
 DirectoryCleaner.egg-info/PKG-INFO
