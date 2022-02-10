@@ -17,9 +17,8 @@ This will set a dummy directory with txt, jpg, png, pdf and hidden files for our
 ```
 
 
-### Use Cases
+### Use cases for `clean` operation
 ```bash
-
 > dirclearner
 > dirclearner --help
 > dirclearner clean --help
@@ -27,6 +26,12 @@ This will set a dummy directory with txt, jpg, png, pdf and hidden files for our
 > dirclearner clean --path ./test_directory
 > dirclearner clean --path ~/Downloads
 > dirclearner clean --path /Choose/Any/Path/You/Want/to/Clean
+```
+
+### Use cases for `rename` operation
+```bash
+> dircleaner rename --search file --replace rfile --filetype .txt --path ./test_directory
+> dircleaner rename --search file --replace rfile --path ./test_directory
 ```
 
 ### Simulation
