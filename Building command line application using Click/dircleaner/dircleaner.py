@@ -145,7 +145,7 @@ def rename(config, search, replace, filetype, path):
         # > python3 batch_rename_cli.py <searchText:Mandatory> <replaceText:Mandatory> --path <path/to/your/directory>
         if filetype == type_filter or type_filter is None:
             # A. check if <search> text is in doc_name, then replace with <replace> text
-            if search in doc_name:
+            if search is not None and search in doc_name and replace is not None:
                 # replace with given text
                 new_doc_name = doc_name.replace(search, replace)
                 new_doc_path = os.path.join(doc_path, new_doc_name) + filetype
