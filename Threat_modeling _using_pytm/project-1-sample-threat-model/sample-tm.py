@@ -77,8 +77,8 @@ web.controls.authorizesSource = False
 web.controls.implementsServerSideValidation = True
 web.controls.authenticationScheme = "Yes"
 web.controls.implementsCSRFToken = True
-web.sourceFiles = ["https://github.com/jahidul-arafat/pytm/blob/master/pytm/json.py",
-                   "https://github.com/jahidul-arafat/pytm/blob/master/docs/advanced_template.md"]
+web.sourceFiles = ["../../../pytm/pytm/json.py",
+                   "../../../pytm/docs/advanced_template.md"]
 
 
 # 3.C - 2x Databases/DataStores under Boundary/Block: Server/DB
@@ -108,7 +108,7 @@ db = Datastore("MySQL Database")
 db.type = DatastoreType.SQL
 db.inBoundary = server_db
 db.OS = "Centos"
-db.sourceFiles = ["https://github.com/jahidul-arafat/pytm/blob/master/pytm/pytm.py"]
+db.sourceFiles = ["../../../pytm/pytm/pytm.py"]
 db.controls.isHardened = False
 db.inScope = True
 db.maxClassification = Classification.RESTRICTED
@@ -119,7 +119,7 @@ secretDb = Datastore("Real Identity Database")
 secretDb.type = DatastoreType.SQL
 secretDb.inBoundary = server_db
 secretDb.OS = "Centos"
-secretDb.sourceFiles = ["https://github.com/jahidul-arafat/pytm/blob/master/pytm/pytm.py"]
+secretDb.sourceFiles = ["../../../pytm/pytm/pytm.py"]
 secretDb.controls.isHardened = True
 secretDb.inScope = True
 secretDb.storesPII = True
