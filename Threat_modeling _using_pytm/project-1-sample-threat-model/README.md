@@ -22,6 +22,13 @@
 > java --version                                # openjdk 11.0.13 2021-10-19
 ```
 
+## Execute the below commands
+```bash
+> ./sample-tm.py --report ../../../pytm/docs/advanced_template.md | pandoc -f markdown -t html > outputs/report.html
+> ./sample-tm.py --dfd | dot -Tpng -o outputs/dfd.png
+> ./sample-tm.py --seq | java -Djava.awt.headless=true -jar ../resources/plantuml.jar -tpng -pipe > outputs/seq.png
+```
+
 
 
 
