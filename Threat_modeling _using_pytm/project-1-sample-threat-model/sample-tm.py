@@ -14,7 +14,9 @@ The thought is that it is, though simple, a complete enough example to express m
 tm.isOrdered = True                     # This will help the TM to pictuarize each of the Boundary/Block in sequence as listed in the code
 tm.mergeResponses = True                # Will generate a top-down data flow diagram, else different
 tm.assumptions =[
-    "Here we can document a list of assumptions about the system"
+    "Here we can document a list of assumptions about the system",
+    "Assumption-1: Webserver will be all secure",
+    "Assumption-2: PII data will be encrypted at Rest and in-transit"
 ]
 
 # Step-02
@@ -75,7 +77,8 @@ web.controls.authorizesSource = False
 web.controls.implementsServerSideValidation = True
 web.controls.authenticationScheme = "Yes"
 web.controls.implementsCSRFToken = True
-web.sourceFiles = ["../resources/pytm/pytm/json.py", "../resources/pytm/docs/template.md"]
+web.sourceFiles = ["https://github.com/jahidul-arafat/pytm/blob/master/pytm/json.py",
+                   "https://github.com/jahidul-arafat/pytm/blob/master/docs/advanced_template.md"]
 
 
 # 3.C - 2x Databases/DataStores under Boundary/Block: Server/DB
@@ -105,7 +108,7 @@ db = Datastore("MySQL Database")
 db.type = DatastoreType.SQL
 db.inBoundary = server_db
 db.OS = "Centos"
-db.sourceFiles = ["../resources/pytm/pytm/pytm.py"]
+db.sourceFiles = ["https://github.com/jahidul-arafat/pytm/blob/master/pytm/pytm.py"]
 db.controls.isHardened = False
 db.inScope = True
 db.maxClassification = Classification.RESTRICTED
@@ -116,7 +119,7 @@ secretDb = Datastore("Real Identity Database")
 secretDb.type = DatastoreType.SQL
 secretDb.inBoundary = server_db
 secretDb.OS = "Centos"
-secretDb.sourceFiles = ["../resources/pytm/pytm/pytm.py"]
+secretDb.sourceFiles = ["https://github.com/jahidul-arafat/pytm/blob/master/pytm/pytm.py"]
 secretDb.controls.isHardened = True
 secretDb.inScope = True
 secretDb.storesPII = True
