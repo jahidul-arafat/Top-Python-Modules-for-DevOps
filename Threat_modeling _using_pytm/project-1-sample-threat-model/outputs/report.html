@@ -1,14 +1,38 @@
 <p><link href="docs/Stylesheet.css" rel="stylesheet"></link></p>
+<h2 id="pytm---a-python-framework-for-threat-modeling">pytm - A Python Framework for Threat Modeling</h2>
+<p>Some part of the original source code is customized by Jahidul Arafat to added intended functionalities and threats</p>
+<hr />
+<p><strong>New Additions</strong> <br> - Oracle Cloud Infrastructure (OCI) Serverless Function is added<br> - OCI Object Storage buckets, OCI VCN is added<br> - Report Generation Template files are customized<br></p>
+<hr />
 <h2 id="system-description">System Description</h2>
+<p> </p>
 <h2 id="a-short-description-of-my-threat-model">A Short Description of My Threat Model</h2>
 <p>This is a sample threat model of a very simple system - a web-based comment system. The user enters comments and these are added to a database and displayed back to the user. The thought is that it is, though simple, a complete enough example to express meaningful threats.</p>
+<p> </p>
+<table>
+<thead>
+<tr class="header">
+<th>Assumptions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Assumption-2: PII data will be encrypted at Rest and in-transit</td>
+</tr>
+<tr class="even">
+<td>Assumption-1: Webserver will be all secure</td>
+</tr>
+</tbody>
+</table>
+<p>     </p>
 <h2 id="dataflow-diagram---level-0-dfd">Dataflow Diagram - Level 0 DFD</h2>
 <div class="figure">
-<img src="sample.png" />
+<img src="../outputs/dfd.png" />
 
 </div>
 <p> </p>
 <h2 id="dataflows">Dataflows</h2>
+<p> </p>
 <table style="width:62%;">
 <colgroup>
 <col width="9%" />
@@ -30,15 +54,15 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">(1) Database verify real user identity</td>
-<td align="center">MySQL Database</td>
-<td align="center">Real Identity Database</td>
+<td align="center">Database verify real user identity</td>
+<td align="center">DB-1: OCI Autonomous Database (ADB)</td>
+<td align="center">DB-2: OCI-ADB/Real Identity Database</td>
 <td align="center">Token verifying user identity</td>
 <td align="center">RDA-TCP</td>
 <td align="center">40234</td>
 </tr>
 <tr class="even">
-<td align="center">(2) User enters comments (*)</td>
+<td align="center">User enters comments (*)</td>
 <td align="center">User</td>
 <td align="center">Web Server</td>
 <td align="center">Comments in HTML or Markdown</td>
@@ -46,23 +70,23 @@
 <td align="center">80</td>
 </tr>
 <tr class="odd">
-<td align="center">(3) Webserver Store the comments into MySQL Database</td>
+<td align="center">Webserver Store the comments into OCI-ADB Database</td>
 <td align="center">Web Server</td>
-<td align="center">MySQL Database</td>
-<td align="center">Store the comments into MySQL Database</td>
-<td align="center">MySQL</td>
-<td align="center">3306</td>
+<td align="center">DB-1: OCI Autonomous Database (ADB)</td>
+<td align="center">Store the comments into OCI-ADB Database</td>
+<td align="center">SQL</td>
+<td align="center">1522</td>
 </tr>
 <tr class="even">
-<td align="center">(4) Webserver Retrieve comments from DB</td>
-<td align="center">MySQL Database</td>
+<td align="center">Webserver Retrieve comments from OCI-ADB</td>
+<td align="center">DB-1: OCI Autonomous Database (ADB)</td>
 <td align="center">Web Server</td>
 <td align="center">Web server retrieves comments from DB</td>
-<td align="center">MySQL</td>
+<td align="center">SQL</td>
 <td align="center">80</td>
 </tr>
 <tr class="odd">
-<td align="center">(5) Webserver Shows comments (*) to users</td>
+<td align="center">Webserver Shows comments (*) to users</td>
 <td align="center">Web Server</td>
 <td align="center">User</td>
 <td align="center">Web server shows comments to the end user</td>
@@ -70,9 +94,9 @@
 <td align="center">-1</td>
 </tr>
 <tr class="even">
-<td align="center">(6) Serverless function periodically cleans DB</td>
+<td align="center">Serverless function periodically cleans DB</td>
 <td align="center">OCI-Function</td>
-<td align="center">MySQL Database</td>
+<td align="center">DB-1: OCI Autonomous Database (ADB)</td>
 <td align="center">Serverless function clears DB</td>
 <td align="center">MySQL</td>
 <td align="center">3306</td>
@@ -80,21 +104,18 @@
 </tbody>
 </table>
 <h2 id="data-dictionary">Data Dictionary</h2>
-<table style="width:51%;">
+<p> </p>
+<table style="width:35%;">
 <colgroup>
 <col width="9%" />
 <col width="15%" />
 <col width="9%" />
-<col width="8%" />
-<col width="8%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th align="center">Name</th>
 <th align="center">Description</th>
 <th align="center">Classification</th>
-<th align="left">Carried</th>
-<th align="left">Processed</th>
 </tr>
 </thead>
 <tbody>
@@ -102,208 +123,43 @@
 <td align="center">Token verifying user identity</td>
 <td align="center"></td>
 <td align="center">SECRET</td>
-<td align="left">Database verify real user identity<br></td>
-<td align="left">MySQL Database<br>Real Identity Database<br></td>
 </tr>
 <tr class="even">
 <td align="center">Comments in HTML or Markdown</td>
 <td align="center"></td>
 <td align="center">PUBLIC</td>
-<td align="left">User enters comments (*)<br></td>
-<td align="left">User<br>Web Server<br></td>
 </tr>
 <tr class="odd">
-<td align="center">Store the comments into MySQL Database</td>
+<td align="center">Store the comments into OCI-ADB Database</td>
 <td align="center"></td>
 <td align="center">PUBLIC</td>
-<td align="left">Webserver Store the comments into MySQL Database<br></td>
-<td align="left">MySQL Database<br>Web Server<br></td>
 </tr>
 <tr class="even">
 <td align="center">Web server retrieves comments from DB</td>
 <td align="center"></td>
 <td align="center">PUBLIC</td>
-<td align="left">Webserver Retrieve comments from DB<br></td>
-<td align="left">MySQL Database<br>Web Server<br></td>
 </tr>
 <tr class="odd">
 <td align="center">Web server shows comments to the end user</td>
 <td align="center"></td>
 <td align="center">PUBLIC</td>
-<td align="left">Webserver Shows comments (*) to users<br></td>
-<td align="left">User<br>Web Server<br></td>
 </tr>
 <tr class="even">
 <td align="center">Serverless function clears DB</td>
 <td align="center"></td>
 <td align="center">PUBLIC</td>
-<td align="left">Serverless function periodically cleans DB<br></td>
-<td align="left">MySQL Database<br>OCI-Function<br></td>
 </tr>
 <tr class="odd">
 <td align="center">User ID token</td>
 <td align="center">Some unique token that represents the user real data in the secret database</td>
 <td align="center">TOP_SECRET</td>
-<td align="left"></td>
-<td align="left">MySQL Database<br>Real Identity Database<br></td>
 </tr>
 </tbody>
 </table>
-<h2 id="actors">Actors</h2>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Name</th>
-<th align="left">User</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Description</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">Is Admin</td>
-<td align="left">False</td>
-</tr>
-<tr class="odd">
-<td align="left">Finding Count</td>
-<td align="left">0</td>
-</tr>
-</tbody>
-</table>
-<h2 id="boundaries">Boundaries</h2>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Name</th>
-<th align="left">Internet</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Description</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">In Scope</td>
-<td align="left">True</td>
-</tr>
-<tr class="odd">
-<td align="left">Immediate Parent</td>
-<td align="left">N/A, primary boundary</td>
-</tr>
-<tr class="even">
-<td align="left">All Parents</td>
-<td align="left"></td>
-</tr>
-<tr class="odd">
-<td align="left">Classification</td>
-<td align="left">Classification.UNKNOWN</td>
-</tr>
-<tr class="even">
-<td align="left">Finding Count</td>
-<td align="left">0</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Name</th>
-<th align="left">Server/DB</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Description</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">In Scope</td>
-<td align="left">True</td>
-</tr>
-<tr class="odd">
-<td align="left">Immediate Parent</td>
-<td align="left">N/A, primary boundary</td>
-</tr>
-<tr class="even">
-<td align="left">All Parents</td>
-<td align="left"></td>
-</tr>
-<tr class="odd">
-<td align="left">Classification</td>
-<td align="left">Classification.UNKNOWN</td>
-</tr>
-<tr class="even">
-<td align="left">Finding Count</td>
-<td align="left">0</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Name</th>
-<th align="left">OCI VCN</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Description</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">In Scope</td>
-<td align="left">True</td>
-</tr>
-<tr class="odd">
-<td align="left">Immediate Parent</td>
-<td align="left">N/A, primary boundary</td>
-</tr>
-<tr class="even">
-<td align="left">All Parents</td>
-<td align="left"></td>
-</tr>
-<tr class="odd">
-<td align="left">Classification</td>
-<td align="left">Classification.UNKNOWN</td>
-</tr>
-<tr class="even">
-<td align="left">Finding Count</td>
-<td align="left">0</td>
-</tr>
-</tbody>
-</table>
-<h2 id="assets">Assets</h2>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Name</th>
-<th align="left">Web Server</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Description</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">In Scope</td>
-<td align="left">True</td>
-</tr>
-<tr class="odd">
-<td align="left">Type</td>
-<td align="left">Server</td>
-</tr>
-<tr class="even">
-<td align="left">Finding Count</td>
-<td align="left">42</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Threats</strong></p>
-<details> <summary> 1 -- INP03 -- Server Side Include (SSI) Injection</summary>
+<p> </p>
+<h2 id="potential-threats">Potential Threats</h2>
+<p>   </p>
+| <details> <summary> INP03 -- Server Side Include (SSI) Injection</summary>
 <h6>
 Targeted Element
 </h6>
@@ -334,8 +190,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/101.html, http://cwe.mitre.org/data/definitions/97.html, http://cwe.mitre.org/data/definitions/74.html, http://cwe.mitre.org/data/definitions/20.html, http://cwe.mitre.org/data/definitions/713.html
 </p>
-<p>  </details></p>
-<details> <summary> 2 -- INP05 -- Command Line Execution through SQL Injection</summary>
+<p>      </details></p>
+<details> <summary> INP05 -- Command Line Execution through SQL Injection</summary>
 <h6>
 Targeted Element
 </h6>
@@ -366,8 +222,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/108.html, http://cwe.mitre.org/data/definitions/89.html, http://cwe.mitre.org/data/definitions/74.html, http://cwe.mitre.org/data/definitions/20.html, http://cwe.mitre.org/data/definitions/78.html, http://cwe.mitre.org/data/definitions/114.html
 </p>
-<p>  </details></p>
-<details> <summary> 3 -- AA01 -- Authentication Abuse/ByPass</summary>
+<p>      </details></p>
+<details> <summary> AA01 -- Authentication Abuse/ByPass</summary>
 <h6>
 Targeted Element
 </h6>
@@ -398,8 +254,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/114.html, http://cwe.mitre.org/data/definitions/287.html
 </p>
-<p>  </details></p>
-<details> <summary> 4 -- DS01 -- Excavation</summary>
+<p>      </details></p>
+<details> <summary> DS01 -- Excavation</summary>
 <h6>
 Targeted Element
 </h6>
@@ -430,8 +286,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/116.html, http://cwe.mitre.org/data/definitions/200.html
 </p>
-<p>  </details></p>
-<details> <summary> 5 -- DE02 -- Double Encoding</summary>
+<p>      </details></p>
+<details> <summary> DE02 -- Double Encoding</summary>
 <h6>
 Targeted Element
 </h6>
@@ -462,8 +318,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/120.html, http://cwe.mitre.org/data/definitions/173.html, http://cwe.mitre.org/data/definitions/177.html
 </p>
-<p>  </details></p>
-<details> <summary> 6 -- AC01 -- Privilege Abuse</summary>
+<p>      </details></p>
+<details> <summary> AC01 -- Privilege Abuse</summary>
 <h6>
 Targeted Element
 </h6>
@@ -494,8 +350,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/122.html, http://cwe.mitre.org/data/definitions/732.html, http://cwe.mitre.org/data/definitions/269.html
 </p>
-<p>  </details></p>
-<details> <summary> 7 -- DO01 -- Flooding</summary>
+<p>      </details></p>
+<details> <summary> DO01 -- Flooding</summary>
 <h6>
 Targeted Element
 </h6>
@@ -526,8 +382,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/125.html, http://cwe.mitre.org/data/definitions/404.html, http://cwe.mitre.org/data/definitions/770.html
 </p>
-<p>  </details></p>
-<details> <summary> 8 -- HA01 -- Path Traversal</summary>
+<p>      </details></p>
+<details> <summary> HA01 -- Path Traversal</summary>
 <h6>
 Targeted Element
 </h6>
@@ -558,8 +414,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/126.html, http://cwe.mitre.org/data/definitions/22.html
 </p>
-<p>  </details></p>
-<details> <summary> 9 -- DO02 -- Excessive Allocation</summary>
+<p>      </details></p>
+<details> <summary> DO02 -- Excessive Allocation</summary>
 <h6>
 Targeted Element
 </h6>
@@ -590,8 +446,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/130.html, http://cwe.mitre.org/data/definitions/770.html, http://cwe.mitre.org/data/definitions/404.html
 </p>
-<p>  </details></p>
-<details> <summary> 10 -- INP08 -- Format String Injection</summary>
+<p>      </details></p>
+<details> <summary> INP08 -- Format String Injection</summary>
 <h6>
 Targeted Element
 </h6>
@@ -622,8 +478,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/135.html, http://cwe.mitre.org/data/definitions/134.html, http://cwe.mitre.org/data/definitions/133.html
 </p>
-<p>  </details></p>
-<details> <summary> 11 -- INP09 -- LDAP Injection</summary>
+<p>      </details></p>
+<details> <summary> INP09 -- LDAP Injection</summary>
 <h6>
 Targeted Element
 </h6>
@@ -654,8 +510,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/136.html, http://cwe.mitre.org/data/definitions/77.html, http://cwe.mitre.org/data/definitions/90.html, http://cwe.mitre.org/data/definitions/20.html
 </p>
-<p>  </details></p>
-<details> <summary> 12 -- INP10 -- Parameter Injection</summary>
+<p>      </details></p>
+<details> <summary> INP10 -- Parameter Injection</summary>
 <h6>
 Targeted Element
 </h6>
@@ -686,8 +542,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/137.html, http://cwe.mitre.org/data/definitions/88.html
 </p>
-<p>  </details></p>
-<details> <summary> 13 -- INP11 -- Relative Path Traversal</summary>
+<p>      </details></p>
+<details> <summary> INP11 -- Relative Path Traversal</summary>
 <h6>
 Targeted Element
 </h6>
@@ -718,8 +574,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/139.html, http://cwe.mitre.org/data/definitions/23.html
 </p>
-<p>  </details></p>
-<details> <summary> 14 -- INP14 -- Input Data Manipulation</summary>
+<p>      </details></p>
+<details> <summary> INP14 -- Input Data Manipulation</summary>
 <h6>
 Targeted Element
 </h6>
@@ -750,8 +606,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/153.html, http://cwe.mitre.org/data/definitions/20.html
 </p>
-<p>  </details></p>
-<details> <summary> 15 -- CR03 -- Dictionary-based Password Attack</summary>
+<p>      </details></p>
+<details> <summary> CR03 -- Dictionary-based Password Attack</summary>
 <h6>
 Targeted Element
 </h6>
@@ -782,8 +638,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/16.html, http://cwe.mitre.org/data/definitions/521.html, http://cwe.mitre.org/data/definitions/262.html, http://cwe.mitre.org/data/definitions/263.html
 </p>
-<p>  </details></p>
-<details> <summary> 16 -- AC06 -- Using Malicious Files</summary>
+<p>      </details></p>
+<details> <summary> AC06 -- Using Malicious Files</summary>
 <h6>
 Targeted Element
 </h6>
@@ -814,8 +670,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/17.html, http://cwe.mitre.org/data/definitions/732.html, http://cwe.mitre.org/data/definitions/272.html, http://cwe.mitre.org/data/definitions/270.html
 </p>
-<p>  </details></p>
-<details> <summary> 17 -- HA03 -- Web Application Fingerprinting</summary>
+<p>      </details></p>
+<details> <summary> HA03 -- Web Application Fingerprinting</summary>
 <h6>
 Targeted Element
 </h6>
@@ -846,8 +702,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/170.html, http://cwe.mitre.org/data/definitions/497.html
 </p>
-<p>  </details></p>
-<details> <summary> 18 -- SC02 -- XSS Targeting Non-Script Elements</summary>
+<p>      </details></p>
+<details> <summary> SC02 -- XSS Targeting Non-Script Elements</summary>
 <h6>
 Targeted Element
 </h6>
@@ -878,8 +734,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/18.html, http://cwe.mitre.org/data/definitions/80.html
 </p>
-<p>  </details></p>
-<details> <summary> 19 -- AC07 -- Exploiting Incorrectly Configured Access Control Security Levels</summary>
+<p>      </details></p>
+<details> <summary> AC07 -- Exploiting Incorrectly Configured Access Control Security Levels</summary>
 <h6>
 Targeted Element
 </h6>
@@ -910,8 +766,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/180.html, http://cwe.mitre.org/data/definitions/732.html
 </p>
-<p>  </details></p>
-<details> <summary> 20 -- SC03 -- Embedding Scripts within Scripts</summary>
+<p>      </details></p>
+<details> <summary> SC03 -- Embedding Scripts within Scripts</summary>
 <h6>
 Targeted Element
 </h6>
@@ -942,8 +798,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/19.html, http://cwe.mitre.org/data/definitions/284.html
 </p>
-<p>  </details></p>
-<details> <summary> 21 -- INP16 -- PHP Remote File Inclusion</summary>
+<p>      </details></p>
+<details> <summary> INP16 -- PHP Remote File Inclusion</summary>
 <h6>
 Targeted Element
 </h6>
@@ -974,8 +830,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/193.html, http://cwe.mitre.org/data/definitions/98.html, http://cwe.mitre.org/data/definitions/80.html, http://cwe.mitre.org/data/definitions/714.html
 </p>
-<p>  </details></p>
-<details> <summary> 22 -- AA02 -- Principal Spoof</summary>
+<p>      </details></p>
+<details> <summary> AA02 -- Principal Spoof</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1006,8 +862,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/195.html
 </p>
-<p>  </details></p>
-<details> <summary> 23 -- DS04 -- XSS Targeting Error Pages</summary>
+<p>      </details></p>
+<details> <summary> DS04 -- XSS Targeting Error Pages</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1038,8 +894,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/198.html, http://cwe.mitre.org/data/definitions/81.html
 </p>
-<p>  </details></p>
-<details> <summary> 24 -- SC04 -- XSS Using Alternate Syntax</summary>
+<p>      </details></p>
+<details> <summary> SC04 -- XSS Using Alternate Syntax</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1070,8 +926,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/199.html, http://cwe.mitre.org/data/definitions/87.html
 </p>
-<p>  </details></p>
-<details> <summary> 25 -- CR05 -- Encryption Brute Forcing</summary>
+<p>      </details></p>
+<details> <summary> CR05 -- Encryption Brute Forcing</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1102,8 +958,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/20.html, http://cwe.mitre.org/data/definitions/326.html, http://cwe.mitre.org/data/definitions/327.html, http://cwe.mitre.org/data/definitions/693.html, http://cwe.mitre.org/data/definitions/719.html
 </p>
-<p>  </details></p>
-<details> <summary> 26 -- AC08 -- Manipulate Registry Information</summary>
+<p>      </details></p>
+<details> <summary> AC08 -- Manipulate Registry Information</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1134,8 +990,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/203.html, http://cwe.mitre.org/data/definitions/15.html
 </p>
-<p>  </details></p>
-<details> <summary> 27 -- SC05 -- Removing Important Client Functionality</summary>
+<p>      </details></p>
+<details> <summary> SC05 -- Removing Important Client Functionality</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1166,8 +1022,8 @@ References
 <p>
 http://cwe.mitre.org/data/definitions/602.html
 </p>
-<p>  </details></p>
-<details> <summary> 28 -- INP17 -- XSS Using MIME Type Mismatch</summary>
+<p>      </details></p>
+<details> <summary> INP17 -- XSS Using MIME Type Mismatch</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1198,8 +1054,8 @@ References
 <p>
 http://cwe.mitre.org/data/definitions/79.html, http://cwe.mitre.org/data/definitions/20.html, http://cwe.mitre.org/data/definitions/646.html
 </p>
-<p>  </details></p>
-<details> <summary> 29 -- AA03 -- Exploitation of Trusted Credentials</summary>
+<p>      </details></p>
+<details> <summary> AA03 -- Exploitation of Trusted Credentials</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1230,8 +1086,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/21.html, http://cwe.mitre.org/data/definitions/290.html, http://cwe.mitre.org/data/definitions/346.html, http://cwe.mitre.org/data/definitions/664.html
 </p>
-<p>  </details></p>
-<details> <summary> 30 -- AC09 -- Functionality Misuse</summary>
+<p>      </details></p>
+<details> <summary> AC09 -- Functionality Misuse</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1262,8 +1118,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/212.html
 </p>
-<p>  </details></p>
-<details> <summary> 31 -- INP18 -- Fuzzing and observing application log data/errors for application mapping</summary>
+<p>      </details></p>
+<details> <summary> INP18 -- Fuzzing and observing application log data/errors for application mapping</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1294,8 +1150,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/215.html, http://cwe.mitre.org/data/definitions/209.html, http://cwe.mitre.org/data/definitions/532.html
 </p>
-<p>  </details></p>
-<details> <summary> 32 -- INP19 -- XML External Entities Blowup</summary>
+<p>      </details></p>
+<details> <summary> INP19 -- XML External Entities Blowup</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1326,8 +1182,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/221.html, http://cwe.mitre.org/data/definitions/611.html
 </p>
-<p>  </details></p>
-<details> <summary> 33 -- AC11 -- Session Credential Falsification through Manipulation</summary>
+<p>      </details></p>
+<details> <summary> AC11 -- Session Credential Falsification through Manipulation</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1358,8 +1214,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/226.html, http://cwe.mitre.org/data/definitions/565.html, http://cwe.mitre.org/data/definitions/472.html
 </p>
-<p>  </details></p>
-<details> <summary> 34 -- INP21 -- DTD Injection</summary>
+<p>      </details></p>
+<details> <summary> INP21 -- DTD Injection</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1390,8 +1246,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/228.html, http://cwe.mitre.org/data/definitions/829.html
 </p>
-<p>  </details></p>
-<details> <summary> 35 -- INP22 -- XML Attribute Blowup</summary>
+<p>      </details></p>
+<details> <summary> INP22 -- XML Attribute Blowup</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1422,8 +1278,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/229.html, http://cwe.mitre.org/data/definitions/770.html
 </p>
-<p>  </details></p>
-<details> <summary> 36 -- INP28 -- XSS Targeting URI Placeholders</summary>
+<p>      </details></p>
+<details> <summary> INP28 -- XSS Targeting URI Placeholders</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1454,8 +1310,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/244.html, http://cwe.mitre.org/data/definitions/83.html
 </p>
-<p>  </details></p>
-<details> <summary> 37 -- INP29 -- XSS Using Doubled Characters</summary>
+<p>      </details></p>
+<details> <summary> INP29 -- XSS Using Doubled Characters</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1486,8 +1342,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/245.html
 </p>
-<p>  </details></p>
-<details> <summary> 38 -- INP34 -- SOAP Array Overflow</summary>
+<p>      </details></p>
+<details> <summary> INP34 -- SOAP Array Overflow</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1518,8 +1374,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/256.html
 </p>
-<p>  </details></p>
-<details> <summary> 39 -- INP36 -- HTTP Response Smuggling</summary>
+<p>      </details></p>
+<details> <summary> INP36 -- HTTP Response Smuggling</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1550,8 +1406,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/273.html
 </p>
-<p>  </details></p>
-<details> <summary> 40 -- INP37 -- HTTP Request Smuggling</summary>
+<p>      </details></p>
+<details> <summary> INP37 -- HTTP Request Smuggling</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1582,8 +1438,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/33.html
 </p>
-<p>  </details></p>
-<details> <summary> 41 -- AC16 -- Session Credential Falsification through Prediction</summary>
+<p>      </details></p>
+<details> <summary> AC16 -- Session Credential Falsification through Prediction</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1614,8 +1470,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/59.html
 </p>
-<p>  </details></p>
-<details> <summary> 42 -- AC17 -- Session Hijacking - ServerSide</summary>
+<p>      </details></p>
+<details> <summary> AC17 -- Session Hijacking - ServerSide</summary>
 <h6>
 Targeted Element
 </h6>
@@ -1646,40 +1502,13 @@ References
 <p>
 https://capec.mitre.org/data/definitions/593.html
 </p>
-<p>  </details></p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Name</th>
-<th align="left">MySQL Database</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Description</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">In Scope</td>
-<td align="left">True</td>
-</tr>
-<tr class="odd">
-<td align="left">Type</td>
-<td align="left">Datastore</td>
-</tr>
-<tr class="even">
-<td align="left">Finding Count</td>
-<td align="left">4</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Threats</strong></p>
-<details> <summary> 43 -- AC01 -- Privilege Abuse</summary>
+<p>      </details></p>
+<details> <summary> AC01 -- Privilege Abuse</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-MySQL Database
+DB-1: OCI Autonomous Database (ADB)
 </p>
 <h6>
 Severity
@@ -1705,13 +1534,13 @@ References
 <p>
 https://capec.mitre.org/data/definitions/122.html, http://cwe.mitre.org/data/definitions/732.html, http://cwe.mitre.org/data/definitions/269.html
 </p>
-<p>  </details></p>
-<details> <summary> 44 -- DO02 -- Excessive Allocation</summary>
+<p>      </details></p>
+<details> <summary> DO02 -- Excessive Allocation</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-MySQL Database
+DB-1: OCI Autonomous Database (ADB)
 </p>
 <h6>
 Severity
@@ -1737,13 +1566,13 @@ References
 <p>
 https://capec.mitre.org/data/definitions/130.html, http://cwe.mitre.org/data/definitions/770.html, http://cwe.mitre.org/data/definitions/404.html
 </p>
-<p>  </details></p>
-<details> <summary> 45 -- CR05 -- Encryption Brute Forcing</summary>
+<p>      </details></p>
+<details> <summary> CR05 -- Encryption Brute Forcing</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-MySQL Database
+DB-1: OCI Autonomous Database (ADB)
 </p>
 <h6>
 Severity
@@ -1769,13 +1598,13 @@ References
 <p>
 https://capec.mitre.org/data/definitions/20.html, http://cwe.mitre.org/data/definitions/326.html, http://cwe.mitre.org/data/definitions/327.html, http://cwe.mitre.org/data/definitions/693.html, http://cwe.mitre.org/data/definitions/719.html
 </p>
-<p>  </details></p>
-<details> <summary> 46 -- DE04 -- Audit Log Manipulation</summary>
+<p>      </details></p>
+<details> <summary> DE04 -- Audit Log Manipulation</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-MySQL Database
+DB-1: OCI Autonomous Database (ADB)
 </p>
 <h6>
 Severity
@@ -1801,40 +1630,13 @@ References
 <p>
 https://capec.mitre.org/data/definitions/268.html, https://capec.mitre.org/data/definitions/93.html
 </p>
-<p>  </details></p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Name</th>
-<th align="left">Real Identity Database</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Description</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">In Scope</td>
-<td align="left">True</td>
-</tr>
-<tr class="odd">
-<td align="left">Type</td>
-<td align="left">Datastore</td>
-</tr>
-<tr class="even">
-<td align="left">Finding Count</td>
-<td align="left">4</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Threats</strong></p>
-<details> <summary> 47 -- AC01 -- Privilege Abuse</summary>
+<p>      </details></p>
+<details> <summary> AC01 -- Privilege Abuse</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-Real Identity Database
+DB-2: OCI-ADB/Real Identity Database
 </p>
 <h6>
 Severity
@@ -1860,13 +1662,13 @@ References
 <p>
 https://capec.mitre.org/data/definitions/122.html, http://cwe.mitre.org/data/definitions/732.html, http://cwe.mitre.org/data/definitions/269.html
 </p>
-<p>  </details></p>
-<details> <summary> 48 -- DO02 -- Excessive Allocation</summary>
+<p>      </details></p>
+<details> <summary> DO02 -- Excessive Allocation</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-Real Identity Database
+DB-2: OCI-ADB/Real Identity Database
 </p>
 <h6>
 Severity
@@ -1892,13 +1694,13 @@ References
 <p>
 https://capec.mitre.org/data/definitions/130.html, http://cwe.mitre.org/data/definitions/770.html, http://cwe.mitre.org/data/definitions/404.html
 </p>
-<p>  </details></p>
-<details> <summary> 49 -- CR05 -- Encryption Brute Forcing</summary>
+<p>      </details></p>
+<details> <summary> CR05 -- Encryption Brute Forcing</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-Real Identity Database
+DB-2: OCI-ADB/Real Identity Database
 </p>
 <h6>
 Severity
@@ -1924,13 +1726,13 @@ References
 <p>
 https://capec.mitre.org/data/definitions/20.html, http://cwe.mitre.org/data/definitions/326.html, http://cwe.mitre.org/data/definitions/327.html, http://cwe.mitre.org/data/definitions/693.html, http://cwe.mitre.org/data/definitions/719.html
 </p>
-<p>  </details></p>
-<details> <summary> 50 -- DE04 -- Audit Log Manipulation</summary>
+<p>      </details></p>
+<details> <summary> DE04 -- Audit Log Manipulation</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-Real Identity Database
+DB-2: OCI-ADB/Real Identity Database
 </p>
 <h6>
 Severity
@@ -1956,35 +1758,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/268.html, https://capec.mitre.org/data/definitions/93.html
 </p>
-<p>  </details></p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Name</th>
-<th align="left">OCI-Function</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Description</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">In Scope</td>
-<td align="left">True</td>
-</tr>
-<tr class="odd">
-<td align="left">Type</td>
-<td align="left">Lambda</td>
-</tr>
-<tr class="even">
-<td align="left">Finding Count</td>
-<td align="left">8</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Threats</strong></p>
-<details> <summary> 51 -- DO02 -- Excessive Allocation</summary>
+<p>      </details></p>
+<details> <summary> DO02 -- Excessive Allocation</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2015,8 +1790,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/130.html, http://cwe.mitre.org/data/definitions/770.html, http://cwe.mitre.org/data/definitions/404.html
 </p>
-<p>  </details></p>
-<details> <summary> 52 -- INP08 -- Format String Injection</summary>
+<p>      </details></p>
+<details> <summary> INP08 -- Format String Injection</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2047,8 +1822,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/135.html, http://cwe.mitre.org/data/definitions/134.html, http://cwe.mitre.org/data/definitions/133.html
 </p>
-<p>  </details></p>
-<details> <summary> 53 -- INP12 -- Client-side Injection-induced Buffer Overflow</summary>
+<p>      </details></p>
+<details> <summary> INP12 -- Client-side Injection-induced Buffer Overflow</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2079,8 +1854,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/14.html, http://cwe.mitre.org/data/definitions/74.html, http://cwe.mitre.org/data/definitions/353.html
 </p>
-<p>  </details></p>
-<details> <summary> 54 -- INP13 -- Command Delimiters</summary>
+<p>      </details></p>
+<details> <summary> INP13 -- Command Delimiters</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2111,8 +1886,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/15.html, http://cwe.mitre.org/data/definitions/146.html, http://cwe.mitre.org/data/definitions/77.html, http://cwe.mitre.org/data/definitions/157.html, http://cwe.mitre.org/data/definitions/154.html
 </p>
-<p>  </details></p>
-<details> <summary> 55 -- INP14 -- Input Data Manipulation</summary>
+<p>      </details></p>
+<details> <summary> INP14 -- Input Data Manipulation</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2143,8 +1918,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/153.html, http://cwe.mitre.org/data/definitions/20.html
 </p>
-<p>  </details></p>
-<details> <summary> 56 -- INP24 -- Filter Failure through Buffer Overflow</summary>
+<p>      </details></p>
+<details> <summary> INP24 -- Filter Failure through Buffer Overflow</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2175,8 +1950,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/24.html, http://cwe.mitre.org/data/definitions/120.html, http://cwe.mitre.org/data/definitions/680.html, http://cwe.mitre.org/data/definitions/20.html
 </p>
-<p>  </details></p>
-<details> <summary> 57 -- INP25 -- Resource Injection</summary>
+<p>      </details></p>
+<details> <summary> INP25 -- Resource Injection</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2207,8 +1982,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/240.html, https://capec.mitre.org/data/definitions/240.html
 </p>
-<p>  </details></p>
-<details> <summary> 58 -- INP26 -- Code Injection</summary>
+<p>      </details></p>
+<details> <summary> INP26 -- Code Injection</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2239,44 +2014,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/242.html, http://cwe.mitre.org/data/definitions/94.html
 </p>
-<p>  </details></p>
-<h2 id="data-flows">Data Flows</h2>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Name</th>
-<th align="left">Database verify real user identity</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Description</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">Sink</td>
-<td align="left">Datastore(Real Identity Database)</td>
-</tr>
-<tr class="odd">
-<td align="left">Source</td>
-<td align="left">Datastore(MySQL Database)</td>
-</tr>
-<tr class="even">
-<td align="left">Is Response</td>
-<td align="left">False</td>
-</tr>
-<tr class="odd">
-<td align="left">In Scope</td>
-<td align="left">True</td>
-</tr>
-<tr class="even">
-<td align="left">Finding Count</td>
-<td align="left">7</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Threats</strong></p>
-<details> <summary> 59 -- DE01 -- Interception</summary>
+<p>      </details></p>
+<details> <summary> DE01 -- Interception</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2307,8 +2046,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/117.html, http://cwe.mitre.org/data/definitions/319.html, https://cwe.mitre.org/data/definitions/299.html
 </p>
-<p>  </details></p>
-<details> <summary> 60 -- AC05 -- Content Spoofing</summary>
+<p>      </details></p>
+<details> <summary> AC05 -- Content Spoofing</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2339,8 +2078,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/148.html, http://cwe.mitre.org/data/definitions/345.html, https://cwe.mitre.org/data/definitions/299.html
 </p>
-<p>  </details></p>
-<details> <summary> 61 -- DE03 -- Sniffing Attacks</summary>
+<p>      </details></p>
+<details> <summary> DE03 -- Sniffing Attacks</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2371,8 +2110,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/157.html, http://cwe.mitre.org/data/definitions/311.html
 </p>
-<p>  </details></p>
-<details> <summary> 62 -- CR06 -- Communication Channel Manipulation</summary>
+<p>      </details></p>
+<details> <summary> CR06 -- Communication Channel Manipulation</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2403,8 +2142,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/216.html
 </p>
-<p>  </details></p>
-<details> <summary> 63 -- CR08 -- Client-Server Protocol Manipulation</summary>
+<p>      </details></p>
+<details> <summary> CR08 -- Client-Server Protocol Manipulation</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2435,8 +2174,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/220.html, http://cwe.mitre.org/data/definitions/757.html
 </p>
-<p>  </details></p>
-<details> <summary> 64 -- DS06 -- Data Leak</summary>
+<p>      </details></p>
+<details> <summary> DS06 -- Data Leak</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2467,8 +2206,8 @@ References
 <p>
 https://cwe.mitre.org/data/definitions/311.html, https://cwe.mitre.org/data/definitions/312.html, https://cwe.mitre.org/data/definitions/916.html, https://cwe.mitre.org/data/definitions/653.html
 </p>
-<p>  </details></p>
-<details> <summary> 65 -- DR01 -- Unprotected Sensitive Data</summary>
+<p>      </details></p>
+<details> <summary> DR01 -- Unprotected Sensitive Data</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2498,43 +2237,8 @@ References
 <p>
 https://cwe.mitre.org/data/definitions/311.html, https://cwe.mitre.org/data/definitions/312.html, https://cwe.mitre.org/data/definitions/916.html, https://cwe.mitre.org/data/definitions/653.html
 </p>
-<p>  </details></p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Name</th>
-<th align="left">User enters comments (*)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Description</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">Sink</td>
-<td align="left">Server(Web Server)</td>
-</tr>
-<tr class="odd">
-<td align="left">Source</td>
-<td align="left">Actor(User)</td>
-</tr>
-<tr class="even">
-<td align="left">Is Response</td>
-<td align="left">False</td>
-</tr>
-<tr class="odd">
-<td align="left">In Scope</td>
-<td align="left">True</td>
-</tr>
-<tr class="even">
-<td align="left">Finding Count</td>
-<td align="left">7</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Threats</strong></p>
-<details> <summary> 66 -- DE01 -- Interception</summary>
+<p>      </details></p>
+<details> <summary> DE01 -- Interception</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2565,8 +2269,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/117.html, http://cwe.mitre.org/data/definitions/319.html, https://cwe.mitre.org/data/definitions/299.html
 </p>
-<p>  </details></p>
-<details> <summary> 67 -- AC05 -- Content Spoofing</summary>
+<p>      </details></p>
+<details> <summary> AC05 -- Content Spoofing</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2597,8 +2301,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/148.html, http://cwe.mitre.org/data/definitions/345.html, https://cwe.mitre.org/data/definitions/299.html
 </p>
-<p>  </details></p>
-<details> <summary> 68 -- DE03 -- Sniffing Attacks</summary>
+<p>      </details></p>
+<details> <summary> DE03 -- Sniffing Attacks</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2629,8 +2333,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/157.html, http://cwe.mitre.org/data/definitions/311.html
 </p>
-<p>  </details></p>
-<details> <summary> 69 -- CR06 -- Communication Channel Manipulation</summary>
+<p>      </details></p>
+<details> <summary> CR06 -- Communication Channel Manipulation</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2661,8 +2365,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/216.html
 </p>
-<p>  </details></p>
-<details> <summary> 70 -- CR08 -- Client-Server Protocol Manipulation</summary>
+<p>      </details></p>
+<details> <summary> CR08 -- Client-Server Protocol Manipulation</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2693,8 +2397,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/220.html, http://cwe.mitre.org/data/definitions/757.html
 </p>
-<p>  </details></p>
-<details> <summary> 71 -- DS06 -- Data Leak</summary>
+<p>      </details></p>
+<details> <summary> DS06 -- Data Leak</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2725,8 +2429,8 @@ References
 <p>
 https://cwe.mitre.org/data/definitions/311.html, https://cwe.mitre.org/data/definitions/312.html, https://cwe.mitre.org/data/definitions/916.html, https://cwe.mitre.org/data/definitions/653.html
 </p>
-<p>  </details></p>
-<details> <summary> 72 -- DR01 -- Unprotected Sensitive Data</summary>
+<p>      </details></p>
+<details> <summary> DR01 -- Unprotected Sensitive Data</summary>
 <h6>
 Targeted Element
 </h6>
@@ -2756,48 +2460,13 @@ References
 <p>
 https://cwe.mitre.org/data/definitions/311.html, https://cwe.mitre.org/data/definitions/312.html, https://cwe.mitre.org/data/definitions/916.html, https://cwe.mitre.org/data/definitions/653.html
 </p>
-<p>  </details></p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Name</th>
-<th align="left">Webserver Store the comments into MySQL Database</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Description</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">Sink</td>
-<td align="left">Datastore(MySQL Database)</td>
-</tr>
-<tr class="odd">
-<td align="left">Source</td>
-<td align="left">Server(Web Server)</td>
-</tr>
-<tr class="even">
-<td align="left">Is Response</td>
-<td align="left">False</td>
-</tr>
-<tr class="odd">
-<td align="left">In Scope</td>
-<td align="left">True</td>
-</tr>
-<tr class="even">
-<td align="left">Finding Count</td>
-<td align="left">7</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Threats</strong></p>
-<details> <summary> 73 -- DE01 -- Interception</summary>
+<p>      </details></p>
+<details> <summary> DE01 -- Interception</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-Webserver Store the comments into MySQL Database
+Webserver Store the comments into OCI-ADB Database
 </p>
 <h6>
 Severity
@@ -2823,13 +2492,13 @@ References
 <p>
 https://capec.mitre.org/data/definitions/117.html, http://cwe.mitre.org/data/definitions/319.html, https://cwe.mitre.org/data/definitions/299.html
 </p>
-<p>  </details></p>
-<details> <summary> 74 -- AC05 -- Content Spoofing</summary>
+<p>      </details></p>
+<details> <summary> AC05 -- Content Spoofing</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-Webserver Store the comments into MySQL Database
+Webserver Store the comments into OCI-ADB Database
 </p>
 <h6>
 Severity
@@ -2855,13 +2524,13 @@ References
 <p>
 https://capec.mitre.org/data/definitions/148.html, http://cwe.mitre.org/data/definitions/345.html, https://cwe.mitre.org/data/definitions/299.html
 </p>
-<p>  </details></p>
-<details> <summary> 75 -- DE03 -- Sniffing Attacks</summary>
+<p>      </details></p>
+<details> <summary> DE03 -- Sniffing Attacks</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-Webserver Store the comments into MySQL Database
+Webserver Store the comments into OCI-ADB Database
 </p>
 <h6>
 Severity
@@ -2887,13 +2556,13 @@ References
 <p>
 https://capec.mitre.org/data/definitions/157.html, http://cwe.mitre.org/data/definitions/311.html
 </p>
-<p>  </details></p>
-<details> <summary> 76 -- CR06 -- Communication Channel Manipulation</summary>
+<p>      </details></p>
+<details> <summary> CR06 -- Communication Channel Manipulation</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-Webserver Store the comments into MySQL Database
+Webserver Store the comments into OCI-ADB Database
 </p>
 <h6>
 Severity
@@ -2919,13 +2588,13 @@ References
 <p>
 https://capec.mitre.org/data/definitions/216.html
 </p>
-<p>  </details></p>
-<details> <summary> 77 -- CR08 -- Client-Server Protocol Manipulation</summary>
+<p>      </details></p>
+<details> <summary> CR08 -- Client-Server Protocol Manipulation</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-Webserver Store the comments into MySQL Database
+Webserver Store the comments into OCI-ADB Database
 </p>
 <h6>
 Severity
@@ -2951,13 +2620,13 @@ References
 <p>
 https://capec.mitre.org/data/definitions/220.html, http://cwe.mitre.org/data/definitions/757.html
 </p>
-<p>  </details></p>
-<details> <summary> 78 -- DS06 -- Data Leak</summary>
+<p>      </details></p>
+<details> <summary> DS06 -- Data Leak</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-Webserver Store the comments into MySQL Database
+Webserver Store the comments into OCI-ADB Database
 </p>
 <h6>
 Severity
@@ -2983,13 +2652,13 @@ References
 <p>
 https://cwe.mitre.org/data/definitions/311.html, https://cwe.mitre.org/data/definitions/312.html, https://cwe.mitre.org/data/definitions/916.html, https://cwe.mitre.org/data/definitions/653.html
 </p>
-<p>  </details></p>
-<details> <summary> 79 -- DR01 -- Unprotected Sensitive Data</summary>
+<p>      </details></p>
+<details> <summary> DR01 -- Unprotected Sensitive Data</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-Webserver Store the comments into MySQL Database
+Webserver Store the comments into OCI-ADB Database
 </p>
 <h6>
 Severity
@@ -3014,48 +2683,13 @@ References
 <p>
 https://cwe.mitre.org/data/definitions/311.html, https://cwe.mitre.org/data/definitions/312.html, https://cwe.mitre.org/data/definitions/916.html, https://cwe.mitre.org/data/definitions/653.html
 </p>
-<p>  </details></p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Name</th>
-<th align="left">Webserver Retrieve comments from DB</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Description</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">Sink</td>
-<td align="left">Server(Web Server)</td>
-</tr>
-<tr class="odd">
-<td align="left">Source</td>
-<td align="left">Datastore(MySQL Database)</td>
-</tr>
-<tr class="even">
-<td align="left">Is Response</td>
-<td align="left">True</td>
-</tr>
-<tr class="odd">
-<td align="left">In Scope</td>
-<td align="left">True</td>
-</tr>
-<tr class="even">
-<td align="left">Finding Count</td>
-<td align="left">7</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Threats</strong></p>
-<details> <summary> 80 -- DE01 -- Interception</summary>
+<p>      </details></p>
+<details> <summary> DE01 -- Interception</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-Webserver Retrieve comments from DB
+Webserver Retrieve comments from OCI-ADB
 </p>
 <h6>
 Severity
@@ -3081,13 +2715,13 @@ References
 <p>
 https://capec.mitre.org/data/definitions/117.html, http://cwe.mitre.org/data/definitions/319.html, https://cwe.mitre.org/data/definitions/299.html
 </p>
-<p>  </details></p>
-<details> <summary> 81 -- AC05 -- Content Spoofing</summary>
+<p>      </details></p>
+<details> <summary> AC05 -- Content Spoofing</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-Webserver Retrieve comments from DB
+Webserver Retrieve comments from OCI-ADB
 </p>
 <h6>
 Severity
@@ -3113,13 +2747,13 @@ References
 <p>
 https://capec.mitre.org/data/definitions/148.html, http://cwe.mitre.org/data/definitions/345.html, https://cwe.mitre.org/data/definitions/299.html
 </p>
-<p>  </details></p>
-<details> <summary> 82 -- DE03 -- Sniffing Attacks</summary>
+<p>      </details></p>
+<details> <summary> DE03 -- Sniffing Attacks</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-Webserver Retrieve comments from DB
+Webserver Retrieve comments from OCI-ADB
 </p>
 <h6>
 Severity
@@ -3145,13 +2779,13 @@ References
 <p>
 https://capec.mitre.org/data/definitions/157.html, http://cwe.mitre.org/data/definitions/311.html
 </p>
-<p>  </details></p>
-<details> <summary> 83 -- CR06 -- Communication Channel Manipulation</summary>
+<p>      </details></p>
+<details> <summary> CR06 -- Communication Channel Manipulation</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-Webserver Retrieve comments from DB
+Webserver Retrieve comments from OCI-ADB
 </p>
 <h6>
 Severity
@@ -3177,13 +2811,13 @@ References
 <p>
 https://capec.mitre.org/data/definitions/216.html
 </p>
-<p>  </details></p>
-<details> <summary> 84 -- CR08 -- Client-Server Protocol Manipulation</summary>
+<p>      </details></p>
+<details> <summary> CR08 -- Client-Server Protocol Manipulation</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-Webserver Retrieve comments from DB
+Webserver Retrieve comments from OCI-ADB
 </p>
 <h6>
 Severity
@@ -3209,13 +2843,13 @@ References
 <p>
 https://capec.mitre.org/data/definitions/220.html, http://cwe.mitre.org/data/definitions/757.html
 </p>
-<p>  </details></p>
-<details> <summary> 85 -- DS06 -- Data Leak</summary>
+<p>      </details></p>
+<details> <summary> DS06 -- Data Leak</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-Webserver Retrieve comments from DB
+Webserver Retrieve comments from OCI-ADB
 </p>
 <h6>
 Severity
@@ -3241,13 +2875,13 @@ References
 <p>
 https://cwe.mitre.org/data/definitions/311.html, https://cwe.mitre.org/data/definitions/312.html, https://cwe.mitre.org/data/definitions/916.html, https://cwe.mitre.org/data/definitions/653.html
 </p>
-<p>  </details></p>
-<details> <summary> 86 -- DR01 -- Unprotected Sensitive Data</summary>
+<p>      </details></p>
+<details> <summary> DR01 -- Unprotected Sensitive Data</summary>
 <h6>
 Targeted Element
 </h6>
 <p>
-Webserver Retrieve comments from DB
+Webserver Retrieve comments from OCI-ADB
 </p>
 <h6>
 Severity
@@ -3272,43 +2906,8 @@ References
 <p>
 https://cwe.mitre.org/data/definitions/311.html, https://cwe.mitre.org/data/definitions/312.html, https://cwe.mitre.org/data/definitions/916.html, https://cwe.mitre.org/data/definitions/653.html
 </p>
-<p>  </details></p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Name</th>
-<th align="left">Webserver Shows comments (*) to users</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Description</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">Sink</td>
-<td align="left">Actor(User)</td>
-</tr>
-<tr class="odd">
-<td align="left">Source</td>
-<td align="left">Server(Web Server)</td>
-</tr>
-<tr class="even">
-<td align="left">Is Response</td>
-<td align="left">True</td>
-</tr>
-<tr class="odd">
-<td align="left">In Scope</td>
-<td align="left">True</td>
-</tr>
-<tr class="even">
-<td align="left">Finding Count</td>
-<td align="left">7</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Threats</strong></p>
-<details> <summary> 87 -- DE01 -- Interception</summary>
+<p>      </details></p>
+<details> <summary> DE01 -- Interception</summary>
 <h6>
 Targeted Element
 </h6>
@@ -3339,8 +2938,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/117.html, http://cwe.mitre.org/data/definitions/319.html, https://cwe.mitre.org/data/definitions/299.html
 </p>
-<p>  </details></p>
-<details> <summary> 88 -- AC05 -- Content Spoofing</summary>
+<p>      </details></p>
+<details> <summary> AC05 -- Content Spoofing</summary>
 <h6>
 Targeted Element
 </h6>
@@ -3371,8 +2970,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/148.html, http://cwe.mitre.org/data/definitions/345.html, https://cwe.mitre.org/data/definitions/299.html
 </p>
-<p>  </details></p>
-<details> <summary> 89 -- DE03 -- Sniffing Attacks</summary>
+<p>      </details></p>
+<details> <summary> DE03 -- Sniffing Attacks</summary>
 <h6>
 Targeted Element
 </h6>
@@ -3403,8 +3002,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/157.html, http://cwe.mitre.org/data/definitions/311.html
 </p>
-<p>  </details></p>
-<details> <summary> 90 -- CR06 -- Communication Channel Manipulation</summary>
+<p>      </details></p>
+<details> <summary> CR06 -- Communication Channel Manipulation</summary>
 <h6>
 Targeted Element
 </h6>
@@ -3435,8 +3034,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/216.html
 </p>
-<p>  </details></p>
-<details> <summary> 91 -- CR08 -- Client-Server Protocol Manipulation</summary>
+<p>      </details></p>
+<details> <summary> CR08 -- Client-Server Protocol Manipulation</summary>
 <h6>
 Targeted Element
 </h6>
@@ -3467,8 +3066,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/220.html, http://cwe.mitre.org/data/definitions/757.html
 </p>
-<p>  </details></p>
-<details> <summary> 92 -- DS06 -- Data Leak</summary>
+<p>      </details></p>
+<details> <summary> DS06 -- Data Leak</summary>
 <h6>
 Targeted Element
 </h6>
@@ -3499,8 +3098,8 @@ References
 <p>
 https://cwe.mitre.org/data/definitions/311.html, https://cwe.mitre.org/data/definitions/312.html, https://cwe.mitre.org/data/definitions/916.html, https://cwe.mitre.org/data/definitions/653.html
 </p>
-<p>  </details></p>
-<details> <summary> 93 -- DR01 -- Unprotected Sensitive Data</summary>
+<p>      </details></p>
+<details> <summary> DR01 -- Unprotected Sensitive Data</summary>
 <h6>
 Targeted Element
 </h6>
@@ -3530,43 +3129,8 @@ References
 <p>
 https://cwe.mitre.org/data/definitions/311.html, https://cwe.mitre.org/data/definitions/312.html, https://cwe.mitre.org/data/definitions/916.html, https://cwe.mitre.org/data/definitions/653.html
 </p>
-<p>  </details></p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Name</th>
-<th align="left">Serverless function periodically cleans DB</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">Description</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">Sink</td>
-<td align="left">Datastore(MySQL Database)</td>
-</tr>
-<tr class="odd">
-<td align="left">Source</td>
-<td align="left">Lambda(OCI-Function)</td>
-</tr>
-<tr class="even">
-<td align="left">Is Response</td>
-<td align="left">False</td>
-</tr>
-<tr class="odd">
-<td align="left">In Scope</td>
-<td align="left">True</td>
-</tr>
-<tr class="even">
-<td align="left">Finding Count</td>
-<td align="left">7</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Threats</strong></p>
-<details> <summary> 94 -- DE01 -- Interception</summary>
+<p>      </details></p>
+<details> <summary> DE01 -- Interception</summary>
 <h6>
 Targeted Element
 </h6>
@@ -3597,8 +3161,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/117.html, http://cwe.mitre.org/data/definitions/319.html, https://cwe.mitre.org/data/definitions/299.html
 </p>
-<p>  </details></p>
-<details> <summary> 95 -- AC05 -- Content Spoofing</summary>
+<p>      </details></p>
+<details> <summary> AC05 -- Content Spoofing</summary>
 <h6>
 Targeted Element
 </h6>
@@ -3629,8 +3193,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/148.html, http://cwe.mitre.org/data/definitions/345.html, https://cwe.mitre.org/data/definitions/299.html
 </p>
-<p>  </details></p>
-<details> <summary> 96 -- DE03 -- Sniffing Attacks</summary>
+<p>      </details></p>
+<details> <summary> DE03 -- Sniffing Attacks</summary>
 <h6>
 Targeted Element
 </h6>
@@ -3661,8 +3225,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/157.html, http://cwe.mitre.org/data/definitions/311.html
 </p>
-<p>  </details></p>
-<details> <summary> 97 -- CR06 -- Communication Channel Manipulation</summary>
+<p>      </details></p>
+<details> <summary> CR06 -- Communication Channel Manipulation</summary>
 <h6>
 Targeted Element
 </h6>
@@ -3693,8 +3257,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/216.html
 </p>
-<p>  </details></p>
-<details> <summary> 98 -- CR08 -- Client-Server Protocol Manipulation</summary>
+<p>      </details></p>
+<details> <summary> CR08 -- Client-Server Protocol Manipulation</summary>
 <h6>
 Targeted Element
 </h6>
@@ -3725,8 +3289,8 @@ References
 <p>
 https://capec.mitre.org/data/definitions/220.html, http://cwe.mitre.org/data/definitions/757.html
 </p>
-<p>  </details></p>
-<details> <summary> 99 -- DS06 -- Data Leak</summary>
+<p>      </details></p>
+<details> <summary> DS06 -- Data Leak</summary>
 <h6>
 Targeted Element
 </h6>
@@ -3757,8 +3321,8 @@ References
 <p>
 https://cwe.mitre.org/data/definitions/311.html, https://cwe.mitre.org/data/definitions/312.html, https://cwe.mitre.org/data/definitions/916.html, https://cwe.mitre.org/data/definitions/653.html
 </p>
-<p>  </details></p>
-<details> <summary> 100 -- DR01 -- Unprotected Sensitive Data</summary>
+<p>      </details></p>
+<details> <summary> DR01 -- Unprotected Sensitive Data</summary>
 <h6>
 Targeted Element
 </h6>
@@ -3788,4 +3352,4 @@ References
 <p>
 https://cwe.mitre.org/data/definitions/311.html, https://cwe.mitre.org/data/definitions/312.html, https://cwe.mitre.org/data/definitions/916.html, https://cwe.mitre.org/data/definitions/653.html
 </p>
-<p>  </details></p>
+<p>      </details> |</p>
