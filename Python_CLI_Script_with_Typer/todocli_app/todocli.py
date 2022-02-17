@@ -16,7 +16,7 @@ app = typer.Typer()
 # add()
 # 2x params: task and category
 # usage: python3 todocli.py add "Add Your Task Here" "Set Category Name"
-@app.command(short_help='adds an item')
+@app.command(short_help='add an item')
 def add(task:str, category:str):
     typer.echo(f"adding {task}, {category}")
     todo=Todo(task,category)
@@ -45,7 +45,7 @@ def update(position:int, task: str=None, category: str=None):
 # complete()
 # 1x params: position
 # Usage: python3 todocli.py complete 3
-@app.command(short_help="Mask the task completed")
+@app.command(short_help="Mark the task completed")
 def complete(position:int):
     typer.echo(f"complete {position}")
     complete_todo(position-1)
