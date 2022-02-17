@@ -71,8 +71,8 @@ def cli():  # this function ever runs when a subcommand i.e. [ > hello say ] run
 # 2x params: task and category
 # usage: python3 todocli.py add "Add Your Task Here" "Set Category Name"
 @cli.command()
-@click.option("--task", type=str, help="Task to be added")
-@click.option("--category", type=str, help="Category of the task")
+@click.option("--task",'-t', type=str, help="Task to be added")
+@click.option("--category",'-c', type=str, help="Category of the task")
 def add(task, category):
     """Add an item"""
     click.echo(f"adding {task}, {category}")
@@ -85,7 +85,7 @@ def add(task, category):
 # 1x params: position of task
 # usage: python3 todocli.py delete 3
 @cli.command()
-@click.option("--position", type=int, help="Enter the Task No to delete")
+@click.option("--position",'-i', type=int, help="Enter the Task No to delete")
 def delete(position):
     """Delete a task"""
     click.echo(f"deleting {position}")
@@ -98,9 +98,9 @@ def delete(position):
 # 3x params: position, task=None, category=None
 # Usage: python3 todocli.py update 6 --task "Updated Task name"
 @cli.command()
-@click.option("--position", type=int, help="Enter the Task No to be updated")
-@click.option("--task", type=str, default=None, help="Task to be added")
-@click.option("--category", type=str, default=None, help="Category of the task")
+@click.option("--position",'-i', type=int, help="Enter the Task No to be updated")
+@click.option("--task",'-t', type=str, default=None, help="Task to be added")
+@click.option("--category",'-c', type=str, default=None, help="Category of the task")
 def update(position, task, category):
     """Update a task"""
     click.echo(f"updating {position}")
@@ -112,7 +112,7 @@ def update(position, task, category):
 # 1x params: position
 # Usage: python3 todocli.py complete 3
 @cli.command()
-@click.option("--position", type=int, help="Mark the Task No as completed")
+@click.option("--position",'-i', type=int, help="Mark the Task No as completed")
 def complete(position):
     """Mark the task completed"""
     click.echo(f"complete {position}")
