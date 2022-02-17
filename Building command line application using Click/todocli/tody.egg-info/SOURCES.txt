@@ -1,0 +1,8 @@
+setup.py
+todocli.py
+tody.egg-info/PKG-INFO
+tody.egg-info/SOURCES.txt
+tody.egg-info/dependency_links.txt
+tody.egg-info/entry_points.txt
+tody.egg-info/requires.txt
+tody.egg-info/top_level.txt
