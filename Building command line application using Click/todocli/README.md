@@ -54,7 +54,6 @@
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -64,32 +63,25 @@
 ## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
-This project will help you create a to-do list in command-line using the following commands:
-```bash
-> tody show                           # list all todos
-> todo add -t "To Do 01" -c "Study"   # Add a todo under category "Study"
-```
+This project will help you create a to-do list in command-line using the following commands 
+like **add, update, delete, complete** and **show**.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 ### Built With
 
-* [Python](https://nextjs.org/)
+* [Python](https://www.python.org/)
 * [Click](https://pypi.org/project/click/)
-* [Rich](https://vuejs.org/)
+* [Rich](https://github.com/Textualize/rich)
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
 ### Prerequisites
 
-List things you need to use the software and how to install them.
+List of things you need to use the software and how to install them.
 ```sh
 pip3 install click
 pip3 install rich
